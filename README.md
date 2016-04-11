@@ -1,2 +1,2 @@
-# agit_api
-Repo for activities monitoring
+# nic_api
+API untuk website
