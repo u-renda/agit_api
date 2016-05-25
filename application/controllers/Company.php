@@ -137,9 +137,10 @@ class Company extends REST_Controller {
 		$validation = 'ok';
 		
 		$id = filter($this->get('id_company'));
+		$name = filter(trim($this->get('name')));
 		
 		$data = array();
-		if ($id == FALSE)
+		if ($id == FALSE && $name == FALSE)
 		{
 			$data['id_company'] = 'required';
 			$validation = 'error';
@@ -152,6 +153,10 @@ class Company extends REST_Controller {
 			if ($id != '')
 			{
 				$param['id_company'] = $id;
+			}
+			else
+			{
+				$param['name'] = $name;
 			}
 			
 			$query = $this->the_model->info($param);

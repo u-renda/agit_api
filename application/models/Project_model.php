@@ -37,8 +37,8 @@ class Project_model extends CI_Model {
         }
         
         $this->db->select('id_project, '.$this->table.'.id_company, '.$this->table.'.id_project_type,
-						  '.$this->table.'.name, requirement, description, division, department,
-						  '.$this->table.'.status, start_date, end_date, finished_date,
+						  '.$this->table.'.name, requirement, '.$this->table.'.description, division,
+						  department, '.$this->table.'.status, start_date, end_date, finished_date,
 						  '.$this->table.'.created_date, '.$this->table.'.updated_date,
 						  company.name as company_name, project_type.name as project_type_name');
         $this->db->from($this->table);

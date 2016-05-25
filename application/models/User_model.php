@@ -44,13 +44,19 @@ class User_model extends CI_Model {
             $where += array('email' => $param['email']);
         }
         
-        $this->db->select('id_user, '.$this->table.'.id_position, '.$this->table.'.id_company, email,
-						  username, '.$this->table.'.name, role, nik, '.$this->table.'.status,
-						  '.$this->table.'.created_date, '.$this->table.'.updated_date,
-						  company.name as company_name, position.name as position_name');
+        $this->db->select('id_user, '.$this->table.'.id_position, '.$this->table.'.id_company,
+						  '.$this->table.'.id_po_name, '.$this->table.'.id_user_project_group, email,
+						  username, password, '.$this->table.'.name, role, nik, photo,
+						  '.$this->table.'.status, '.$this->table.'.created_date,
+						  '.$this->table.'.updated_date, company.name as company_name,
+						  position.name as position_name, po_name.name as po_name_name,
+						  user_project_group.name as user_project_group_name,
+						  user_project_group.description as user_project_group_description');
         $this->db->from($this->table);
         $this->db->join('company', $this->table.'.id_company = company.id_company');
         $this->db->join('position', $this->table.'.id_position = position.id_position');
+        $this->db->join('po_name', $this->table.'.id_po_name = po_name.id_po_name');
+        $this->db->join('user_project_group', $this->table.'.id_user_project_group = user_project_group.id_user_project_group');
         $this->db->where($where);
         $query = $this->db->get();
         return $query;
@@ -72,8 +78,9 @@ class User_model extends CI_Model {
 			$where += array('role' => $param['role']);
 		}
 		
-        $this->db->select('id_user, id_position, id_company, email, username, name, role, nik,
-						  status, created_date, updated_date');
+        $this->db->select('id_user, id_position, id_company, id_po_name, id_user_project_group,
+						  email, username, name, role, nik, photo, status, created_date,
+						  updated_date');
         $this->db->from($this->table);
         $this->db->where($where);
         $this->db->order_by($param['order'], $param['sort']);

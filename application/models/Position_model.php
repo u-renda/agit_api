@@ -63,7 +63,7 @@ class Position_model extends CI_Model {
     function lists_count($param)
     {
         $where = array();
-		if ($param['status'] != '')
+		if (isset($param['status']) == TRUE)
 		{
 			$where += array('status' => $param['status']);
 		}

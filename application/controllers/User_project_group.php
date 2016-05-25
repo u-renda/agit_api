@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH.'/libraries/REST_Controller.php';
 
-class Project_group extends REST_Controller {
+class User_project_group extends REST_Controller {
 
     function __construct()
     {
         parent::__construct();
-		$this->load->model('project_group_model', 'the_model');
+		$this->load->model('user_project_group_model', 'the_model');
     }
 	
 	function create_post()
@@ -16,20 +16,12 @@ class Project_group extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-		$id_project = filter($this->post('id_project'));
 		$id_job_analyst = filter($this->post('id_job_analyst'));
 		$name = filter(trim($this->post('name')));
 		$status = filter(trim($this->post('status')));
 		$description = filter(trim($this->post('description')));
 		
 		$data = array();
-		if ($id_project == FALSE)
-		{
-			$data['id_project'] = 'required';
-			$validation = 'error';
-			$code = 400;
-		}
-		
 		if ($id_job_analyst == FALSE)
 		{
 			$data['id_job_analyst'] = 'required';
@@ -44,7 +36,7 @@ class Project_group extends REST_Controller {
 			$code = 400;
 		}
 		
-		if (in_array($status, $this->config->item('default_project_group_status')) == FALSE && $status == TRUE)
+		if (in_array($status, $this->config->item('default_user_project_group_status')) == FALSE && $status == TRUE)
 		{
 			$data['status'] = 'wrong value';
 			$validation = 'error';
@@ -59,7 +51,6 @@ class Project_group extends REST_Controller {
 			}
 			
 			$param = array();
-			$param['id_project'] = $id_project;
 			$param['id_job_analyst'] = $id_job_analyst;
 			$param['name'] = $name;
 			$param['description'] = $description;
@@ -96,19 +87,19 @@ class Project_group extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-        $id = filter($this->post('id_project_group'));
+        $id = filter($this->post('id_user_project_group'));
         
 		$data = array();
         if ($id == FALSE)
 		{
-			$data['id_project_group'] = 'required';
+			$data['id_user_project_group'] = 'required';
 			$validation = "error";
 			$code = 400;
 		}
         
         if ($validation == "ok")
 		{
-            $query = $this->the_model->info(array('id_project_group' => $id));
+            $query = $this->the_model->info(array('id_user_project_group' => $id));
 			
 			if ($query->num_rows() > 0)
 			{
@@ -129,7 +120,7 @@ class Project_group extends REST_Controller {
 			}
 			else
 			{
-				$data['id_project_group'] = 'not found';
+				$data['id_user_project_group'] = 'not found';
 				$validation = "error";
 				$code = 400;
 			}
@@ -149,12 +140,12 @@ class Project_group extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-		$id = filter($this->get('id_project_group'));
+		$id = filter($this->get('id_user_project_group'));
 		
 		$data = array();
 		if ($id == FALSE)
 		{
-			$data['id_project_group'] = 'required';
+			$data['id_user_project_group'] = 'required';
 			$validation = 'error';
 			$code = 400;
 		}
@@ -164,7 +155,7 @@ class Project_group extends REST_Controller {
 			$param = array();
 			if ($id != '')
 			{
-				$param['id_project_group'] = $id;
+				$param['id_user_project_group'] = $id;
 			}
 			
 			$query = $this->the_model->info($param);
@@ -174,16 +165,12 @@ class Project_group extends REST_Controller {
 				$row = $query->row();
 				
 				$data = array(
-					'id_project_group' => $row->id_project_group,
+					'id_user_project_group' => $row->id_user_project_group,
 					'name' => $row->name,
 					'description' => $row->description,
 					'status' => intval($row->status),
 					'created_date' => $row->created_date,
 					'updated_date' => $row->updated_date,
-					'project' => array(
-						'id_project' => $row->id_project,
-						'name' => $row->project_name
-					),
 					'job_analyst' => array(
 						'id_job_analyst' => $row->id_job_analyst,
 						'name' => $row->job_analyst_name
@@ -195,7 +182,7 @@ class Project_group extends REST_Controller {
 			}
 			else
 			{
-				$data['id_project_group'] = 'not found';
+				$data['id_user_project_group'] = 'not found';
 				$validation = 'error';
 				$code = 400;
 			}
@@ -242,7 +229,7 @@ class Project_group extends REST_Controller {
 			$offset = 0;
 		}
 		
-		if (in_array($order, $this->config->item('default_project_group_order')) && ($order == TRUE))
+		if (in_array($order, $this->config->item('default_user_project_group_order')) && ($order == TRUE))
 		{
 			$order = $order;
 		}
@@ -260,7 +247,7 @@ class Project_group extends REST_Controller {
 			$sort = 'desc';
 		}
 		
-		if (in_array($status, $this->config->item('default_project_group_status')) && ($status == TRUE))
+		if (in_array($status, $this->config->item('default_user_project_group_status')) && ($status == TRUE))
 		{
 			$status = $status;
 		}
@@ -287,8 +274,7 @@ class Project_group extends REST_Controller {
 			foreach ($query->result() as $row)
 			{
 				$data[] = array(
-					'id_project_group' => $row->id_project_group,
-					'id_project' => $row->id_project,
+					'id_user_project_group' => $row->id_user_project_group,
 					'id_job_analyst' => $row->id_job_analyst,
 					'name' => $row->name,
 					'description' => $row->description,
@@ -317,7 +303,7 @@ class Project_group extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-		$id = filter($this->post('id_project_group'));
+		$id = filter($this->post('id_user_project_group'));
 		$name = filter(trim($this->post('name')));
 		$status = filter(trim($this->post('status')));
 		$description = filter(trim($this->post('description')));
@@ -325,12 +311,12 @@ class Project_group extends REST_Controller {
 		$data = array();
 		if ($id == FALSE)
 		{
-			$data['id_project_group'] = 'required';
+			$data['id_user_project_group'] = 'required';
 			$validation = 'error';
 			$code = 400;
 		}
 		
-		if (in_array($status, $this->config->item('default_project_group_status')) == FALSE && $status == TRUE)
+		if (in_array($status, $this->config->item('default_user_project_group_status')) == FALSE && $status == TRUE)
 		{
 			$data['status'] = 'wrong value';
 			$validation = 'error';
@@ -339,7 +325,7 @@ class Project_group extends REST_Controller {
 		
 		if ($validation == 'ok')
 		{
-			$query = $this->the_model->info(array('id_project_group' => $id));
+			$query = $this->the_model->info(array('id_user_project_group' => $id));
 			
 			if ($query->num_rows() > 0)
 			{
@@ -378,7 +364,7 @@ class Project_group extends REST_Controller {
 			}
 			else
 			{
-				$data['id_project_group'] = 'not found';
+				$data['id_user_project_group'] = 'not found';
 				$validation = 'error';
 				$code = 400;
 			}

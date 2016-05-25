@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH.'/libraries/REST_Controller.php';
 
-class Project_user extends REST_Controller {
+class Po_name extends REST_Controller {
 
     function __construct()
     {
         parent::__construct();
-		$this->load->model('project_user_model', 'the_model');
+		$this->load->model('po_name_model', 'the_model');
     }
 	
 	function create_post()
@@ -16,28 +16,12 @@ class Project_user extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-		$id_project = filter($this->post('id_project'));
-		$id_user = filter($this->post('id_user'));
-		$id_job_role = filter($this->post('id_job_role'));
+		$name = filter(trim($this->post('name')));
 		
 		$data = array();
-		if ($id_project == FALSE)
+		if ($name == FALSE)
 		{
-			$data['id_project'] = 'required';
-			$validation = 'error';
-			$code = 400;
-		}
-		
-		if ($id_job_role == FALSE)
-		{
-			$data['id_job_role'] = 'required';
-			$validation = 'error';
-			$code = 400;
-		}
-		
-		if ($id_user == FALSE)
-		{
-			$data['id_user'] = 'required';
+			$data['name'] = 'required';
 			$validation = 'error';
 			$code = 400;
 		}
@@ -45,9 +29,7 @@ class Project_user extends REST_Controller {
 		if ($validation == 'ok')
 		{
 			$param = array();
-			$param['id_project'] = $id_project;
-			$param['id_user'] = $id_user;
-			$param['id_job_role'] = $id_job_role;
+			$param['name'] = $name;
 			$param['created_date'] = date('Y-m-d H:i:s');
 			$param['updated_date'] = date('Y-m-d H:i:s');
 			$query = $this->the_model->create($param);
@@ -80,19 +62,19 @@ class Project_user extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-        $id = filter($this->post('id_project_user'));
+        $id = filter($this->post('id_po_name'));
         
 		$data = array();
         if ($id == FALSE)
 		{
-			$data['id_project_user'] = 'required';
+			$data['id_po_name'] = 'required';
 			$validation = "error";
 			$code = 400;
 		}
         
         if ($validation == "ok")
 		{
-            $query = $this->the_model->info(array('id_project_user' => $id));
+            $query = $this->the_model->info(array('id_po_name' => $id));
 			
 			if ($query->num_rows() > 0)
 			{
@@ -113,7 +95,7 @@ class Project_user extends REST_Controller {
 			}
 			else
 			{
-				$data['id_project_user'] = 'not found';
+				$data['id_po_name'] = 'not found';
 				$validation = "error";
 				$code = 400;
 			}
@@ -133,12 +115,12 @@ class Project_user extends REST_Controller {
 		$this->benchmark->mark('code_start');
 		$validation = 'ok';
 		
-		$id = filter($this->get('id_project_user'));
+		$id = filter($this->get('id_po_name'));
 		
 		$data = array();
 		if ($id == FALSE)
 		{
-			$data['id_project_user'] = 'required';
+			$data['id_po_name'] = 'required';
 			$validation = 'error';
 			$code = 400;
 		}
@@ -148,7 +130,7 @@ class Project_user extends REST_Controller {
 			$param = array();
 			if ($id != '')
 			{
-				$param['id_project_user'] = $id;
+				$param['id_po_name'] = $id;
 			}
 			
 			$query = $this->the_model->info($param);
@@ -158,21 +140,10 @@ class Project_user extends REST_Controller {
 				$row = $query->row();
 				
 				$data = array(
-					'id_project_user' => $row->id_project_user,
+					'id_po_name' => $row->id_po_name,
+					'name' => $row->name,
 					'created_date' => $row->created_date,
-					'updated_date' => $row->updated_date,
-					'project' => array(
-						'id_project' => $row->id_project,
-						'name' => $row->project_name
-					),
-					'user' => array(
-						'id_user' => $row->id_user,
-						'name' => $row->user_name
-					),
-					'job_role' => array(
-						'id_job_role' => $row->id_job_role,
-						'name' => $row->job_role_name
-					)
+					'updated_date' => $row->updated_date
 				);
 				
 				$validation = 'ok';
@@ -180,7 +151,7 @@ class Project_user extends REST_Controller {
 			}
 			else
 			{
-				$data['id_project_user'] = 'not found';
+				$data['id_po_name'] = 'not found';
 				$validation = 'error';
 				$code = 400;
 			}
@@ -203,9 +174,6 @@ class Project_user extends REST_Controller {
 		$limit = filter(trim(intval($this->get('limit'))));
 		$order = filter(trim(strtolower($this->get('order'))));
 		$sort = filter(trim(strtolower($this->get('sort'))));
-		$id_project = filter($this->get('id_project'));
-		$id_user = filter($this->get('id_user'));
-		$group_by = filter($this->get('group_by'));
 		
 		if ($limit == TRUE && $limit < 20)
 		{
@@ -229,7 +197,7 @@ class Project_user extends REST_Controller {
 			$offset = 0;
 		}
 		
-		if (in_array($order, $this->config->item('default_project_user_order')) && ($order == TRUE))
+		if (in_array($order, $this->config->item('default_po_name_order')) && ($order == TRUE))
 		{
 			$order = $order;
 		}
@@ -249,22 +217,6 @@ class Project_user extends REST_Controller {
 		
 		$param = array();
 		$param2 = array();
-		if ($id_project != '')
-		{
-			$param['id_project'] = $id_project;
-			$param2['id_project'] = $id_project;
-		}
-		if ($id_user != '')
-		{
-			$param['id_user'] = $id_user;
-			$param2['id_user'] = $id_user;
-		}
-		if ($group_by != '')
-		{
-			$param['group_by'] = $group_by;
-			$param2['group_by'] = $group_by;
-		}
-		
 		$param['limit'] = $limit;
 		$param['offset'] = $offset;
 		$param['order'] = $order;
@@ -279,10 +231,8 @@ class Project_user extends REST_Controller {
 			foreach ($query->result() as $row)
 			{
 				$data[] = array(
-					'id_project_user' => $row->id_project_user,
-					'id_project' => $row->id_project,
-					'id_user' => $row->id_user,
-					'id_job_role' => $row->id_job_role,
+					'id_po_name' => $row->id_po_name,
+					'name' => $row->name,
 					'created_date' => $row->created_date,
 					'updated_date' => $row->updated_date
 				);
@@ -300,5 +250,69 @@ class Project_user extends REST_Controller {
 		$this->benchmark->mark('code_end');
 		$rv['load'] = $this->benchmark->elapsed_time('code_start', 'code_end') . ' seconds';
 		$this->response($rv, $rv['code']);
+	}
+	
+	function update_post()
+	{
+		$this->benchmark->mark('code_start');
+		$validation = 'ok';
+		
+		$id = filter($this->post('id_po_name'));
+		$name = filter(trim($this->post('name')));
+		
+		$data = array();
+		if ($id == FALSE)
+		{
+			$data['id_po_name'] = 'required';
+			$validation = 'error';
+			$code = 400;
+		}
+		
+		if ($validation == 'ok')
+		{
+			$query = $this->the_model->info(array('id_po_name' => $id));
+			
+			if ($query->num_rows() > 0)
+			{
+				$param = array();
+				if ($name == TRUE)
+				{
+					$param['name'] = $name;
+				}
+				
+				if ($param == TRUE)
+				{
+					$param['updated_date'] = date('Y-m-d H:i:s');
+					$update = $this->the_model->update($id, $param);
+					
+					if ($update > 0)
+					{
+						$data['update'] = 'success';
+						$validation = 'ok';
+						$code = 200;
+					}
+				}
+				else
+				{
+					$data['update'] = 'failed';
+					$validation = 'error';
+					$code = 400;
+				}
+			}
+			else
+			{
+				$data['id_po_name'] = 'not found';
+				$validation = 'error';
+				$code = 400;
+			}
+		}
+		
+		$rv = array();
+		$rv['message'] = $validation;
+		$rv['code'] = $code;
+		$rv['result'] = $data;
+		$this->benchmark->mark('code_end');
+		$rv['load'] = $this->benchmark->elapsed_time('code_start', 'code_end') . ' seconds';
+		$this->response($rv, $code);
 	}
 }

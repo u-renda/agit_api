@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Project_group_model extends CI_Model {
+class User_project_group_model extends CI_Model {
 
-    var $table = 'project_group';
-    var $table_id = 'id_project_group';
+    var $table = 'user_project_group';
+    var $table_id = 'id_user_project_group';
     
     public function __construct()
     {
@@ -27,18 +27,16 @@ class Project_group_model extends CI_Model {
     function info($param)
     {
         $where = array();
-        if (isset($param['id_project_group']) == TRUE)
+        if (isset($param['id_user_project_group']) == TRUE)
         {
-            $where += array('id_project_group' => $param['id_project_group']);
+            $where += array('id_user_project_group' => $param['id_user_project_group']);
         }
         
-        $this->db->select('id_project_group, '.$this->table.'.id_project,
-						  '.$this->table.'.id_job_analyst, '.$this->table.'.name,
-						  '.$this->table.'.description, '.$this->table.'.status,
-						  '.$this->table.'.created_date, '.$this->table.'.updated_date,
-						  project.name as project_name, job_analyst.name as job_analyst_name');
+        $this->db->select('id_user_project_group, '.$this->table.'.id_job_analyst,
+						  '.$this->table.'.name, '.$this->table.'.description,
+						  '.$this->table.'.status, '.$this->table.'.created_date,
+						  '.$this->table.'.updated_date, job_analyst.name as job_analyst_name');
         $this->db->from($this->table);
-        $this->db->join('project', $this->table.'.id_project = project.id_project');
         $this->db->join('job_analyst', $this->table.'.id_job_analyst = job_analyst.id_job_analyst');
         $this->db->where($where);
         $query = $this->db->get();
@@ -53,7 +51,7 @@ class Project_group_model extends CI_Model {
 			$where += array('status' => $param['status']);
 		}
 		
-        $this->db->select('id_project_group, id_project, id_job_analyst, name, description, status,
+        $this->db->select('id_user_project_group, id_job_analyst, name, description, status,
 						  created_date, updated_date');
         $this->db->from($this->table);
         $this->db->where($where);

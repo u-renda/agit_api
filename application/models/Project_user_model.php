@@ -56,6 +56,10 @@ class Project_user_model extends CI_Model {
 		{
 			$where += array('id_user' => $param['id_user']);
 		}
+		if (isset($param['group_by']) == TRUE)
+		{
+			$this->db->group_by($param['group_by']);
+		}
 		
         $this->db->select('id_project_user, id_project, id_user, id_job_role, created_date,
 						  updated_date');
@@ -77,6 +81,10 @@ class Project_user_model extends CI_Model {
 		if (isset($param['id_user']) == TRUE)
 		{
 			$where += array('id_user' => $param['id_user']);
+		}
+		if (isset($param['group_by']) == TRUE)
+		{
+			$this->db->group_by($param['group_by']);
 		}
         
         $this->db->select($this->table_id);

@@ -1,9 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Company_model extends CI_Model {
+class Po_name_model extends CI_Model {
 
-    var $table = 'company';
-    var $table_id = 'id_company';
+    var $table = 'po_name';
+    var $table_id = 'id_po_name';
     
     public function __construct()
     {
@@ -27,16 +27,12 @@ class Company_model extends CI_Model {
     function info($param)
     {
         $where = array();
-        if (isset($param['id_company']) == TRUE)
+        if (isset($param['id_po_name']) == TRUE)
         {
-            $where += array('id_company' => $param['id_company']);
-        }
-        if (isset($param['name']) == TRUE)
-        {
-            $where += array('name' => $param['name']);
+            $where += array('id_po_name' => $param['id_po_name']);
         }
         
-        $this->db->select('id_company, name, status, created_date, updated_date');
+        $this->db->select('id_po_name, name, created_date, updated_date');
         $this->db->from($this->table);
         $this->db->where($where);
         $query = $this->db->get();
@@ -46,12 +42,8 @@ class Company_model extends CI_Model {
     function lists($param)
     {
         $where = array();
-		if (isset($param['status']) == TRUE)
-		{
-			$where += array('status' => $param['status']);
-		}
         
-        $this->db->select('id_company, name, status, created_date, updated_date');
+        $this->db->select('id_po_name, name, created_date, updated_date');
         $this->db->from($this->table);
         $this->db->where($where);
         $this->db->order_by($param['order'], $param['sort']);
@@ -63,10 +55,6 @@ class Company_model extends CI_Model {
     function lists_count($param)
     {
         $where = array();
-		if (isset($param['status']) == TRUE)
-		{
-			$where += array('status' => $param['status']);
-		}
         
         $this->db->select($this->table_id);
         $this->db->from($this->table);
