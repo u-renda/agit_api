@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-if(is_bool(LOCALHOST) || LOCALHOST == 'localhost')
+if(is_bool(LOCALHOST) || LOCALHOST == 'localhost' || LOCALHOST == 'localhost:8081')
 {
     $db['default'] = array(
         'dsn'	=> '',
