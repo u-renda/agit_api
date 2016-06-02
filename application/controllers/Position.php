@@ -304,13 +304,6 @@ class Position extends REST_Controller {
 			$code = 400;
 		}
 		
-		if (check_position_name($name) == FALSE && $name == TRUE)
-		{
-			$data['name'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
 		if (in_array($status, $this->config->item('default_position_status')) == FALSE && $status == TRUE)
 		{
 			$data['status'] = 'wrong value';

@@ -343,13 +343,6 @@ class Project_doc extends REST_Controller {
 			$code = 400;
 		}
 		
-		if (check_project_doc_title($title) == FALSE && $title == TRUE)
-		{
-			$data['title'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
 		if (in_array($category, $this->config->item('default_project_doc_category')) == FALSE && $category == TRUE)
 		{
 			$data['category'] = 'wrong value';

@@ -484,27 +484,6 @@ class User extends REST_Controller {
 			$code = 400;
 		}
 		
-		if (check_user_name($name) == FALSE && $name == TRUE)
-		{
-			$data['name'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
-		if (check_user_username($username) == FALSE && $username == TRUE)
-		{
-			$data['username'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
-		if (check_user_email($email) == FALSE && $email == TRUE)
-		{
-			$data['email'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
 		if (in_array($status, $this->config->item('default_user_status')) == FALSE && $status == TRUE)
 		{
 			$data['status'] = 'wrong value';

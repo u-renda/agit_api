@@ -419,13 +419,6 @@ class Project extends REST_Controller {
 			$code = 400;
 		}
 		
-		if (check_project_name($name) == FALSE && $name == TRUE)
-		{
-			$data['name'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
 		if (check_date_format($finished_date) == FALSE && $finished_date == TRUE)
 		{
 			$data['finished_date'] = 'wrong format';

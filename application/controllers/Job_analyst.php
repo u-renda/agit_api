@@ -286,13 +286,6 @@ class Job_analyst extends REST_Controller {
 			$code = 400;
 		}
 		
-		if (check_job_analyst_name($name) == FALSE && $name == TRUE)
-		{
-			$data['name'] = 'already exist';
-			$validation = 'error';
-			$code = 400;
-		}
-		
 		if ($validation == 'ok')
 		{
 			$query = $this->the_model->info(array('id_job_analyst' => $id));
