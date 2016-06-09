@@ -536,5 +536,5 @@ $config['default_user_overtime_status'] = array('1', '2');
 $config['default_user_overtime_type'] = array('1', '2', '3', '4');
 $config['default_user_project_group_order'] = array('created_date', 'name');
 $config['default_user_project_group_status'] = array('0', '1');
-$config['default_user_role'] = array('1', '2', '3');
+$config['default_user_role'] = array('1', '2', '3', '4', '5', '6');
 $config['default_user_status'] = array('0', '1');
