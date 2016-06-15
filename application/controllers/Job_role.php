@@ -43,7 +43,7 @@ class Job_role extends REST_Controller {
 			
 			$param = array();
 			$param['name'] = $name;
-			$param['description'] = $description;
+			$param['description'] = stripcslashes($description);
 			$param['created_date'] = date('Y-m-d H:i:s');
 			$param['updated_date'] = date('Y-m-d H:i:s');
 			$query = $this->the_model->create($param);
