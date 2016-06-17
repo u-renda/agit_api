@@ -137,9 +137,10 @@ class Position extends REST_Controller {
 		$validation = 'ok';
 		
 		$id = filter($this->get('id_position'));
+		$name = filter(trim($this->get('name')));
 		
 		$data = array();
-		if ($id == FALSE)
+		if ($id == FALSE && $name == FALSE)
 		{
 			$data['id_position'] = 'required';
 			$validation = 'error';
@@ -152,6 +153,10 @@ class Position extends REST_Controller {
 			if ($id != '')
 			{
 				$param['id_position'] = $id;
+			}
+			else
+			{
+				$param['name'] = $name;
 			}
 			
 			$query = $this->the_model->info($param);
