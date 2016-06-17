@@ -130,9 +130,10 @@ class Job_role extends REST_Controller {
 		$validation = 'ok';
 		
 		$id = filter($this->get('id_job_role'));
+		$name = filter(trim($this->get('name')));
 		
 		$data = array();
-		if ($id == FALSE)
+		if ($id == FALSE && $name == FALSE)
 		{
 			$data['id_job_role'] = 'required';
 			$validation = 'error';
@@ -145,6 +146,10 @@ class Job_role extends REST_Controller {
 			if ($id != '')
 			{
 				$param['id_job_role'] = $id;
+			}
+			elseif ($name != '')
+			{
+				$param['name'] = $name;
 			}
 			
 			$query = $this->the_model->info($param);
@@ -301,6 +306,10 @@ class Job_role extends REST_Controller {
 				if ($description != '')
 				{
 					$param['description'] = $description;
+				}
+				else
+				{
+					$param['description'] = '-';
 				}
 				
 				if ($param == TRUE)

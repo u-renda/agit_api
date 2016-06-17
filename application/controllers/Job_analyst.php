@@ -307,6 +307,10 @@ class Job_analyst extends REST_Controller {
 				{
 					$param['description'] = $description;
 				}
+				else
+				{
+					$param['description'] = '-';
+				}
 				
 				if ($param == TRUE)
 				{
