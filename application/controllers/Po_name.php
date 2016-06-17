@@ -26,6 +26,13 @@ class Po_name extends REST_Controller {
 			$code = 400;
 		}
 		
+		if (check_po_name_name($name) == FALSE && $name == TRUE)
+		{
+			$data['name'] = 'already exist';
+			$validation = 'error';
+			$code = 400;
+		}
+		
 		if ($validation == 'ok')
 		{
 			$param = array();
@@ -116,9 +123,10 @@ class Po_name extends REST_Controller {
 		$validation = 'ok';
 		
 		$id = filter($this->get('id_po_name'));
+		$name = filter(trim($this->get('name')));
 		
 		$data = array();
-		if ($id == FALSE)
+		if ($id == FALSE && $name == FALSE)
 		{
 			$data['id_po_name'] = 'required';
 			$validation = 'error';
@@ -131,6 +139,10 @@ class Po_name extends REST_Controller {
 			if ($id != '')
 			{
 				$param['id_po_name'] = $id;
+			}
+			else
+			{
+				$param['name'] = $name;
 			}
 			
 			$query = $this->the_model->info($param);

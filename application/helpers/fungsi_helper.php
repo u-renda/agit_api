@@ -82,6 +82,26 @@ if ( ! function_exists('check_job_role_name'))
     }
 }
 
+if ( ! function_exists('check_po_name_name'))
+{
+    function check_po_name_name($name)
+	{
+        $CI =& get_instance();
+        $CI->load->model('po_name_model');
+        
+		$query = $CI->po_name_model->info(array('name' => $name));
+		
+		if ($query->num_rows() > 0)
+		{
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+    }
+}
+
 if ( ! function_exists('check_position_name'))
 {
     function check_position_name($name)

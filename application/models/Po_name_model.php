@@ -31,6 +31,10 @@ class Po_name_model extends CI_Model {
         {
             $where += array('id_po_name' => $param['id_po_name']);
         }
+        if (isset($param['name']) == TRUE)
+        {
+            $where += array('name' => $param['name']);
+        }
         
         $this->db->select('id_po_name, name, created_date, updated_date');
         $this->db->from($this->table);
